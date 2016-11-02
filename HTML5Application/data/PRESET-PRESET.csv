@@ -1,0 +1,7 @@
+ID,NAME,TABLESTRING,COLUMNSTRING,DISPLAYSTRING
+1,"Employee basic information","emp,emp,emp,emp","name,sex,birthday,tel","EMPLOYEE ID,EMPLOYEE NUMBER,EMPLOYEE_NAME,SEX,BIRTHDAY,TELEPHONE_NUMBER"
+2,"Employee Contact information","emp,emp,emp","ctct_name,ctct_addr,ctct_tel","EMPLOYEE ID,EMPLOYEE NUMBER,EMERGENCY_CONTACT_NAME,EMERGENCY_CONTACT_ADDR,EMERGENCY_CONTACT_NO"
+3,"Employee Passport information","emp,emp,emp,emp","pspt_no,pspt_date,pspt_name,rental","EMPLOYEE ID,EMPLOYEE NUMBER,PASSPORT_NUMBER,PASSPORT_DATE,PASSPORT_NAME,RENTAL"
+4,"Employee Family members information","family,family,family,family,family,family","name,sex,birthday,relation,cohabit,care","EMPLOYEE ID,EMPLOYEE NUMBER,FAMILY_MEMBER_NAME,MEMBER_SEX,MEMBER_BIRTHDAY,RELATION,TYPE_OF_COHABITATION,TYPE_OF_CARE"
+5,"Employee educational details","edu,edu,edu","school,major,grad","EMPLOYEE ID,EMPLOYEE NUMBER,SCHOOL_NAME,MAJOR_SPECIALIZATION,YEAR_OF_GRADUATION"
+6,"Employee Address details","addr,addr,addr,addr,addr,addr","zip,state,city,street,bldg,house","EMPLOYEE ID,EMPLOYEE NUMBER,ZIP_CODE,STATE,CITY,STREET,BUILDING_NAME/NUMBER,HOUSE"

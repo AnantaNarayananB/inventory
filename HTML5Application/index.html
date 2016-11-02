@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="lib/jquery.js"></script>
+        <link href="css/bootstrap.css" rel="stylesheet" />
+        <script src="lib/bootstrap.js"></script>
+        <script src="lib/alasql.js"></script>
+        <script src="lib/purl.js"></script>
+        <script src="lib/jquery.dataTables.min.js"></script>
+        <link href="lib/jquery.dataTables.min.css" rel="stylesheet"/>
+        <link href="lib/dataTables.bootstrap.css" rel="stylesheet"/>
+        <script src="js/db.js"></script>
+        <script src="lib/toastr.js"></script>
+        <link href="lib/toastr.css" rel="stylesheet"/>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+        $( function() {
+          $( "#col_list" ).sortable();
+          $( "#col_list" ).disableSelection();
+        } );
+        </script>
+        <script type="text/javascript">
+            $(document).ready(ajustamodal);
+            $(window).resize(ajustamodal);
+            function a justamodal() {
+              var altura = $(window).height() - 170; //value corresponding to the modal heading + footer
+                    $(".ativa-scroll").css({"min-height": 256, "max-height": altura, "overflow-y": "auto"});
+                }
+        </script>
+        <script>
+            $( function() {
+              $( "#table_attributes" ).selectable();
+            } );
+        </script>
+        <meta charset="utf-8">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta name="viewport" content="width=device-width">
+        <title>COMPANY</title>
+        <style>
+            @media screen and (min-width: 768px) {
+
+                #exampleModal .modal-dialog  {width:1550px;}
+                
+            }
+           .filterMatches {
+    background-color: yellow;
+}
+            .list-group {
+                list-style: decimal inside;
+            }
+            
+            .list-group-item {
+                display: list-item;
+            }
+            
+
+            .label{
+                font-size:14px;
+                padding-top: 9px;
+                padding-bottom:9px;
+                padding-left: 16px;
+                padding-right: 16px;
+                height:34px;
+            }
+            .popover-content{
+                width:250px;
+            }
+           
+            #table_attributes .ui-selecting { background: lightgrey }
+            .glyphicon-remove-sign {
+                padding:0px;
+                border:0px;
+            }
+            #table_attributes .ui-selected { background: #F39814; color: white; }
+        </style>
+    </head>
+    <body>
+
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed"
+                            data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span> <span
+                            class="icon-bar"></span> <span class="icon-bar"></span> <span
+                            class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">COMPANY</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.html">Personal Info
+                                Management</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-rightremove" style ="float:left">
+                        
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="remove"><a href="#">Hello Admin!</a></li>
+                        <li class="active remove" id="logout"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span>
+                                Settings <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a onclick="window.location.reload(true);"><span
+                                            class="glyphicon glyphicon-refresh"></span> Reload</a></li>
+                                <li><a onclick="DB.init();"><span
+                                            class="glyphicon glyphicon-repeat"></span> Init DB</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a onclick="DB.remove();"><span
+                                            class="glyphicon glyphicon-trash"></span> Delete DB</a></li>
+                            </ul></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+
+        <div class="container">
+            <div class="container">
+            
+            <button type="button" class="btn btn-success" id="settings" data-toggle="modal" data-target="#authent" style = "float:right">
+                    <span class="glyphicon glyphicon-cog"></span> Customize Employee List 
+            </button>
+            </div>
+           
+            <form action="index.html" id ="search1" class="form-inline text-center">
+                <div class="form-group">
+                    <input name="q1" type="text" class="form-control"
+                           placeholder="employee number">
+                </div>
+                <div class="form-group">
+                    <input name="q2" type="text" class="form-control"
+                           placeholder="part of name">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+            </form>
+            
+            <div class = "container" id ="search2" style="margin-top:30px"  >
+                <div style = "float:left;margin-left:10px" >
+                            <div class="btn-group" style = "float:left;margin-left:190px">
+                                <button type="button" class="button4 btn btn-default dropdown-toggle" style="width:320px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                    <span class= "d7d">choose the columns you need to search</span>
+                                </button>
+                                <ul class="dropdown-menu" id = "choosecol">
+
+                                </ul>
+                            </div>
+                        </div>  
+                        <div class="form-group" style = "float:left;width:200px;margin-left:30px"><input name="q6" type="text" class = "form-control" id="searchname" placeholder="Type your search name" ></div>
+                        <button type="submit" class="btn btn-primary" id = "searchcol" style = "float:left;margin-left:30px">
+                            <span class="glyphicon glyphicon-search" ></span> Search
+                        </button>         
+                </div>
+                
+            
+                <div class="modal fade" id = "authent" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center" style="width:598px">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title"><span class="glyphicon glyphicon-user" style  = "margin-right:15px"></span>PIM Administrator Login</h4>
+                            </div>
+                            <form>
+                            <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="username" class="control-label">User Name</label>
+                                        <input type="text" class="form-control" id="username">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="password" class="control-label">Password</label>
+                                        <input type="password" class = "form-control" id="password">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" id="Login" data-toggle="modal"><span class="glyphicon glyphicon-log-in" style  = "margin-right:15px"></span>Login</button>
+                            </div>
+                            </form>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" id = "header1" >
+                                <button type="button" class="close"  aria-label="Close" data-dismiss="modal" ><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title md text-center" id="exampleModalLabel">Customize Employee List</h4>
+                                
+                            </div>
+                            <div class="modal-body ativa-scroll " style = "text-align:left;min-height:256px;max-height:1500px">
+                                <div class = "container" id ="CrSv" style = "margin:6px;padding:0px;width:1486px" >
+                                    <button type="button" class="btn btn-success" id = "create" style = "float:left;margin-right:4px"><span class="glyphicon glyphicon-plus"></span>Create new list</button>
+                                    <div style = "float:right;margin-left:4px" >
+                                        <div class="btn-group" style = "float:right;">
+                                            <button type="button" class="button5 btn btn-default dropdown-toggle" style ="width:270px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                                <span class= "d6d">Choose the table you want to Open</span>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" id="delete" data-trigger="focus" >
+                                                <span class ="glyphicon glyphicon-trash"></span>
+                                            </button>    
+                                            <ul class="dropdown-menu" id = "svd_table">
+                                                   
+                                            </ul>          
+                                        </div>
+                                        <span class="label label-primary"  style = "float:right;margin-right:4px" data-toggle="popover" data-trigger="focus" data-content="And here's some amazing content. It's very engaging. Right?">
+                                            <span class="glyphicon glyphicon-folder-open" style = "margin-right:8px"></span>
+                                            Open/Edit table
+                                        </span>
+                                        
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="panel panel-default toggle">
+                                    <div class="panel-heading dropdown-header" data-toggle= "dropdown" style = "color:white ; background-color: grey;font-weight:bold ; font-size: large;">
+                                        <h3 class="panel-title" style ="font-weight:bold ; height:30px;font-size: large;">Customize columns
+                                            <button type="button" class="btn btn-primary" id = "save" style = "float:right;margin-right:4px" data-toggle="popover" data-trigger="focus" data-content="And here's some amazing content. It's very engaging. Right?"><span class="glyphicon glyphicon-save-file"></span>Save Table</button>
+                                            <input name="q3" type="text" class = "form-control" id="tab_name" placeholder="Type your table name"  style = "float:right;margin-right:4px;width:180px" >
+                                            
+                                        </h3>
+                                        
+                                    </div>
+                                    <div class = "panel-body" style=" max-height:1200px" >
+
+                                        <div class="btn-group" style = "float:left; width :380px">
+                                            <span class="label label-primary" style="width:130px;float:left">Select Database</span>
+                                            <button type="button" class="button1 btn btn-primary dropdown-toggle" style="width:250px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                                <span class= "d1d">Choose the type of database &nbsp;&nbsp;&nbsp;  </span>
+                                            </button>
+                                            <ul class="dropdown-menu" id = "table_names">
+
+                                            </ul>
+                                        </div>
+                                        <div style = "float:left">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                        <div class="btn-group" style = "float:left; width:380px">
+                                             <span class="label label-primary" style="width:93px;float:left">Select Info</span>
+                                            <button type="button" class="button2 multiselect btn btn-primary dropdown-toggle" style="width:287px" id ="dropstop" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" >
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                                <span class= "d1d"> choose which information you require &nbsp;&nbsp;&nbsp;</span>
+                                            </button>
+                                            <br><br>
+                                            <ul id = "table_attributes" class="nav nav-pills nav-stacked ui-selectable"  style = "float:none;font-size:small">
+                                                <li>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; Select the Database first and then proceed to here &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                                            </ul>
+                                        </div>
+                                        <div style = "float:left">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                        <div class="nav nav-pills nav-stacked" style = "float:left;width:640px">
+                                            <a href="#" class="list-group-item active text-center"  style = "height:34px;font-family:inherit;">
+                                                Chosen Information 
+                                            </a>
+                                            <ul class="list-group ui-sortable" id = "col_list" style = "padding-left:0px;height:34px;font-family:inherit;">
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--div class="submit" id = "generate" style = "text-align:center">
+                                        <buttton type="button" class= "btn btn-success" id ="sub" style ="margin:20px">Generate the Employee list</buttton>
+                                    </div-->
+                                </div>
+                                
+                                <br>
+                                <br>
+                            </div> 
+
+                            <div class="modal-footer display">
+                                <a href="index.html"> <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button></a>
+                                <button type="submit" class="btn btn-success" id = "generate" data-dismiss = "modal"><span class="glyphicon glyphicon-ok"></span> Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <hr>
+            <div class="panel panel-primary" id = "custom">
+                <div class="panel-heading" style="font-weight:bold;font-size:16px;"><span class="glyphicon glyphicon-eye-open" style="margin-right:8px;"></span>Generate Customized Employee List</div>
+                <div class="panel-body">
+                    <div class = "container" id = "view" style="width:1138px">
+                        <span style = "float:left;margin-right:10px;font-weight:bold;font-size:16px:">View Preconfigured tables</span>
+                        <div style = "float:left;" >
+                            <div class="btn-group" style = "float:left;margin-right:10px">
+                                <button type="button" class="button4 btn btn-default dropdown-toggle" style="width:280px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                    <span class= "d4d">Preconfigured tables</span>
+                                </button>
+                                <ul class="dropdown-menu" id = "conf_table">
+
+                                </ul>
+                            </div>
+
+                            <!--button type="button" class="btn btn-warning" id = "gentable" style = "float:right;margin-left:10px"><span class="glyphicon glyphicon-play-circle" style="margin-right:4px"></span>Generate Employee List</button-->
+
+                        </div>
+                        <div style = "float:right;margin-right:10px;" >
+                            <div class="btn-group" style = "float:left">
+                                <button type="button" class="button4 btn btn-default dropdown-toggle" style="width:320px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                    <span class= "d3d">Choose the employee list you want to display</span>
+                                </button>
+                                <ul class="dropdown-menu" id = "disp_table">
+
+                                </ul>
+                            </div>
+
+                            <!--button type="button" class="btn btn-primary" id = "refresh" style = "float:left;margin-left:10px"><span class="glyphicon glyphicon-eye-open" style="margin-right:4px"></span>View Employee List</button-->
+
+                        </div> 
+                        <span style = "float:right;font-weight:bold;font-size:16px;margin-right:10px;">View Saved tables</span>
+
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            <div class="clearfix" style="margin: 10px 0;">
+                <a href="emp-form.html" class="btn btn-sm btn-success pull-right"><span
+                        class="glyphicon glyphicon-plus"></span> New</a>
+            </div>
+            <table class="table table-striped display" id="tableDisp">
+                <thead id = "thead-emps">
+                    <tr>
+                        <th></th>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Telephone</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-emps"></tbody>
+            </table>
+
+        </div>
+        <!--script src="js/customize.js"></script-->
+        <script src ="js/index.js"></script>
+        <script src ="js/customize.js"></script>
+        <script>
+        </script>
+    </body>
+</html>

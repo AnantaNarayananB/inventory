@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="lib/jquery.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet" />
+<script src="lib/bootstrap.js"></script>
+<script src="lib/alasql.js"></script>
+<script src="lib/purl.js"></script>
+<script src="js/db.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width">
+<title>COMPANY</title>
+<style>
+@media screen and (min-width: 768px) {
+	
+	#exampleModal .modal-dialog  {width:1200px;}
+
+}
+
+</style>
+</head>
+<body>
+ <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open modal for @mdo</button-->
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="index.html"><button type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button></a>
+        <h4 class="modal-title" id="exampleModalLabel">Customize Employee List</h4>
+      </div>
+      <div class="modal-body">
+        	<div class="panel panel-default" >
+            <div class="panel-heading" style = "color:white ;  background-color: grey">
+                <h3 class="panel-title" font-weight:bold ; font-size: large;>Customize columns</h3>
+            </div>
+		    <div class = "panel-body">
+		        <div class="btn-group" style = "float:left; width :380px">
+                    <button type="button" class="btn btn-warning">Select Database</button>
+                    <button type="button" class="button1 btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                        <span class= "d1d">Choose the type of information  &nbsp;&nbsp;&nbsp;  </span>
+                        </button>
+                        <ul class="dropdown-menu" id = "table_names">
+                          
+                        </ul>
+                </div>
+                <div style = "float:left">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="btn-group" style = "float:left; width:380px">
+                    <button type="button" class="btn btn-danger">Select Info</button>
+                    <button type="button" class="button2 multiselect btn btn-danger dropdown-toggle" id ="dropstop" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                       <span class= "d1d"> choose which information you require  &nbsp;&nbsp;&nbsp;</span>
+                        </button>
+                        <br><br>
+                    <ul class="nav nav-pills nav-stacked" id = "table_attributes" multiple = "multiple" style = "float:none">
+                            <li>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; Select the Database first and then proceed to here &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                   </ul>
+                </div>
+                <div style = "float:left">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="nav nav-pills nav-stacked" id = "col_list" style = "float:left;width:300px;">
+                    <a href="#" class="list-group-item active text-center" style = "height:34px;font-family:inherit">
+                          Chosen Information
+                    </a>
+                </div>
+            </div>
+            <!--div class="submit" id = "generate" style = "text-align:center">
+                <buttton type="button" class= "btn btn-success" id ="sub" style ="margin:20px">Generate the Employee list</buttton>
+            </div-->
+        </div>
+      </div>
+      <div class="modal-footer" >
+       <a href="index.html"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button></a>
+        <a href="index.html"><button type="submit" class="btn btn-success" id = "Done"><span class="glyphicon glyphicon-ok"></span> Done</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/index.js"></script>
+</body>
